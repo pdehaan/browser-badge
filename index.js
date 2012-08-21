@@ -12,14 +12,14 @@ module.exports = function (browsers) {
     var canvas = new Canvas(width, height);
     var ctx = canvas.getContext('2d');
     
-    ctx.fillStyle = 'rgb(31,31,31)';
+    ctx.fillStyle = 'rgb(55,55,55)';
     round(ctx, 0, 0, width, height, 8);
     ctx.fill();
     
     var stream = through();
     
     browserNames.forEach(function (name, ix) {
-        ctx.fillStyle = 'rgb(55,55,55)';
+        ctx.fillStyle = 'rgb(62,62,62)';
         round(ctx, 2 + ix * 52, 2, 50, height - 4, 8);
         ctx.fill();
     });
