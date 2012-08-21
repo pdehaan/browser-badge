@@ -1,5 +1,5 @@
 var argv = require('optimist').argv;
-var createBadge = require('./');
+var createBadge = require('../');
 var fs = require('fs');
 var syntaxError = require('syntax-error');
 

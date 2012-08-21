@@ -52,15 +52,14 @@ module.exports = function (browsers) {
 function drawVersions (ctx, versions, x) {
     var keys = Object.keys(versions).sort();
     keys.forEach(function (key, i) {
-        ctx.fillStyle = versions[key]
-            ? 'rgb(51,255,26)' // ok -> * green
-            : 'rgb(255,51,26)' // fail -> x red
-        ;
-        
-        var y = 58 + i * 11;
-        ctx.font = 'bold 12px sans-serif';
-        
         var v = versions[key];
+        var y = 58 + i * 11;
+        
+        ctx.font = 'bold 12px sans-serif';
+        ctx.fillStyle = v
+            ? 'rgb(51,255,26)' // ok -> ✓ green
+            : 'rgb(255,51,26)' // fail -> ⚑ red
+        ;
         ctx.fillText(v ? '✓' : '⚑', x, y);
         
         ctx.font = 'normal 10px sans-serif';
