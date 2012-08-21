@@ -4,17 +4,20 @@ var through = require('through');
 
 module.exports = function (browsers) {
     var browserNames = Object.keys(browsers);
-    var width = browserNames.length * 51 + 10;
+    var width = browserNames.length * 51 + 16;
+    var height = Math.max.apply(null, browserNames.map(function (name) {
+        return Object.keys(browsers[name]).length * 11 + 58;
+    }));
     
-    var canvas = new Canvas(width, 120);
+    var canvas = new Canvas(width, height);
     var ctx = canvas.getContext('2d');
     
     ctx.fillStyle = 'rgb(191,191,191)';
-    round(ctx, 0, 0, width, 120, 20);
+    round(ctx, 0, 0, width, height, 20);
     ctx.fill();
     
     ctx.fillStyle = 'rgb(31,31,31)';
-    round(ctx, 2, 2, width - 4, 120 - 4, 20);
+    round(ctx, 2, 2, width - 4, height - 4, 20);
     ctx.fill();
     
     var stream = through();
@@ -30,12 +33,12 @@ module.exports = function (browsers) {
             var img = new Canvas.Image;
             img.src = 'data:image/png;base64,' + data;
             
-            var x = 5 + 51 * ix + (51 - img.width * 0.5) / 2;
+            var x = 7 + 51 * ix + (51 - img.width * 0.5) / 2;
             var w = img.width * 0.5;
             var h = img.height * 0.5;
             
             ctx.drawImage(img, x, 5, w, h);
-            drawVersions(ctx, browsers[name], 10 + 51 * ix);
+            drawVersions(ctx, browsers[name], 12 + 51 * ix);
             
             next(ix + 1);
         });
