@@ -4,7 +4,7 @@ var through = require('through');
 
 module.exports = function (browsers) {
     var browserNames = Object.keys(browsers);
-    var width = browserNames.length * 51 + 16;
+    var width = browserNames.length * 52 + 2;
     var height = Math.max.apply(null, browserNames.map(function (name) {
         return Object.keys(browsers[name]).length * 11 + 58;
     }));
@@ -12,15 +12,17 @@ module.exports = function (browsers) {
     var canvas = new Canvas(width, height);
     var ctx = canvas.getContext('2d');
     
-    ctx.fillStyle = 'rgb(191,191,191)';
-    round(ctx, 0, 0, width, height, 20);
-    ctx.fill();
-    
     ctx.fillStyle = 'rgb(31,31,31)';
-    round(ctx, 2, 2, width - 4, height - 4, 20);
+    round(ctx, 0, 0, width, height, 8);
     ctx.fill();
     
     var stream = through();
+    
+    browserNames.forEach(function (name, ix) {
+        ctx.fillStyle = 'rgb(55,55,55)';
+        round(ctx, 2 + ix * 52, 2, 50, height - 4, 8);
+        ctx.fill();
+    });
     
     (function next (ix) {
         var name = browserNames[ix];
@@ -33,12 +35,12 @@ module.exports = function (browsers) {
             var img = new Canvas.Image;
             img.src = 'data:image/png;base64,' + data;
             
-            var x = 7 + 51 * ix + (51 - img.width * 0.5) / 2;
+            var x = 2 + 52 * ix + (52 - img.width * 0.5) / 2;
             var w = img.width * 0.5;
             var h = img.height * 0.5;
             
             ctx.drawImage(img, x, 5, w, h);
-            drawVersions(ctx, browsers[name], 12 + 51 * ix);
+            drawVersions(ctx, browsers[name], 5 + 52 * ix);
             
             next(ix + 1);
         });
