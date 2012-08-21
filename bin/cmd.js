@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 var argv = require('optimist').argv;
 var createBadge = require('../');
 var fs = require('fs');
@@ -23,7 +25,8 @@ instream.on('end', function () {
     }
     catch (err) {
         var e = syntaxError('(' + data + ')')
-        return console.error(e || err)
+        console.error(e || err)
+        process.exit(1);
     }
     createBadge(browsers).pipe(outstream);
 });
