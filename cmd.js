@@ -9,7 +9,7 @@ var instream = infile === '-'
     : fs.createReadStream(infile)
 ;
 
-var outfile = argv._[0] || argv.outfile || argv.o || '-';
+var outfile = argv._.shift() || argv.outfile || argv.o || '-';
 var outstream = outfile === '-'
     ? process.stdout
     : fs.createWriteStream(outfile)

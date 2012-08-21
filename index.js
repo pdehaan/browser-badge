@@ -20,10 +20,10 @@ module.exports = function (browsers) {
     var stream = through();
     
     (function next (ix) {
-        var browser = browserNames[ix];
-        if (!browser) return canvas.createPNGStream().pipe(stream);
+        var name = browserNames[ix];
+        if (!name) return canvas.createPNGStream().pipe(stream);
         
-        var file = __dirname + '/static/' + browser + '.png';
+        var file = __dirname + '/static/' + name + '.png';
         fs.readFile(file, 'base64', function (err, data) {
             if (err) return stream.emit('error', err);
             
@@ -35,6 +35,7 @@ module.exports = function (browsers) {
             var h = img.height * 0.5;
             
             ctx.drawImage(img, x, 5, w, h);
+            drawVersions(ctx, browsers[name], 5 + 51 * ix);
             
             next(ix + 1);
         });
@@ -42,6 +43,20 @@ module.exports = function (browsers) {
     
     return stream;
 };
+
+function drawVersions (ctx, versions, x) {
+    var keys = Object.keys(versions).sort();
+    keys.forEach(function (key, i) {
+        ctx.fillStyle = versions[key]
+            ? 'rgb(51,255,26)' // ok -> * green
+            : 'rgb(255,51,26)' // fail -> x red
+        ;
+        var t = (versions[key] ? '•' : 'x') + key;
+        
+        var y = 55 + i * 14;
+        ctx.fillText(t, x, y);
+    });
+}
 
 function round (ctx, x, y, w, h, r) {
     ctx.beginPath();
