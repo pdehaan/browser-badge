@@ -1,10 +1,29 @@
 var argv = require('optimist').argv;
 var createBadge = require('./');
 var fs = require('fs');
+var syntaxError = require('syntax-error');
 
-var outfile = argv._[0] || argv.outfile || argv.o;
-var out = outfile && outfile !== '-'
-    ? fs.createWriteStream(outfile)
-    : process.stdout
+var infile = argv._.shift() || argv.infile || argv.i || '-';
+var instream = infile === '-'
+    ? process.stdin
+    : fs.createReadStream(infile)
 ;
-createBadge(argv).pipe(out);
+
+var outfile = argv._[0] || argv.outfile || argv.o || '-';
+var outstream = outfile === '-'
+    ? process.stdout
+    : fs.createWriteStream(outfile)
+;
+
+var data = '';
+instream.on('data', function (buf) { data += buf });
+instream.on('end', function () {
+    try {
+        var browsers = JSON.parse(data);
+    }
+    catch (err) {
+        var e = syntaxError('(' + data + ')')
+        return console.error(e || err)
+    }
+    createBadge(browsers).pipe(outstream);
+});

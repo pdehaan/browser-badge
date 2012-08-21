@@ -2,13 +2,9 @@ var fs = require('fs');
 var Canvas = require('canvas');
 var through = require('through');
 
-module.exports = function (opts) {
-    var browsers = opts.browser || opts.browsers
-        || [ 'explorer', 'chrome', 'safari', 'firefox', 'opera' ]
-    ;
-    if (!Array.isArray(browsers)) browsers = browsers.split(/[,\s]+/);
-    
-    var width = browsers.length * 51 + 10;
+module.exports = function (browsers) {
+    var browserNames = Object.keys(browsers);
+    var width = browserNames.length * 51 + 10;
     
     var canvas = new Canvas(width, 120);
     var ctx = canvas.getContext('2d');
@@ -24,7 +20,7 @@ module.exports = function (opts) {
     var stream = through();
     
     (function next (ix) {
-        var browser = browsers[ix];
+        var browser = browserNames[ix];
         if (!browser) return canvas.createPNGStream().pipe(stream);
         
         var file = __dirname + '/static/' + browser + '.png';
@@ -34,9 +30,9 @@ module.exports = function (opts) {
             var img = new Canvas.Image;
             img.src = 'data:image/png;base64,' + data;
             
-            var x = 5 + 51 * ix + (51 - img.width * 0.6) / 2;
-            var w = img.width * 0.6;
-            var h = img.height * 0.6;
+            var x = 5 + 51 * ix + (51 - img.width * 0.5) / 2;
+            var w = img.width * 0.5;
+            var h = img.height * 0.5;
             
             ctx.drawImage(img, x, 5, w, h);
             
@@ -45,7 +41,7 @@ module.exports = function (opts) {
     })(0);
     
     return stream;
-}
+};
 
 function round (ctx, x, y, w, h, r) {
     ctx.beginPath();
