@@ -35,7 +35,7 @@ module.exports = function (browsers) {
             var h = img.height * 0.5;
             
             ctx.drawImage(img, x, 5, w, h);
-            drawVersions(ctx, browsers[name], 5 + 51 * ix);
+            drawVersions(ctx, browsers[name], 10 + 51 * ix);
             
             next(ix + 1);
         });
@@ -51,10 +51,15 @@ function drawVersions (ctx, versions, x) {
             ? 'rgb(51,255,26)' // ok -> * green
             : 'rgb(255,51,26)' // fail -> x red
         ;
-        var t = (versions[key] ? '•' : 'x') + key;
         
-        var y = 55 + i * 14;
-        ctx.fillText(t, x, y);
+        var y = 58 + i * 11;
+        ctx.font = 'bold 12px sans-serif';
+        
+        var v = versions[key];
+        ctx.fillText(v ? '✓' : '⚑', x, y);
+        
+        ctx.font = 'normal 10px sans-serif';
+        ctx.fillText(key, x + 12, y);
     });
 }
 
