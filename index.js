@@ -50,7 +50,9 @@ module.exports = function (browsers) {
 };
 
 function drawVersions (ctx, versions, x) {
-    var keys = Object.keys(versions).sort();
+    var keys = Object.keys(versions).sort(function(a, b) {
+        return a - b;
+    });
     keys.forEach(function (key, i) {
         var v = versions[key];
         var y = 58 + i * 11;
