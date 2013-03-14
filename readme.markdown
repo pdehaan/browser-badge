@@ -12,7 +12,7 @@ With a json file like this:
   "firefox" : { "10.0" : true, "11.0" : true, "12.0" : false, "13.0" : true, "nightly" : true },
   "chrome" : { "14.0" : true, "15.0" : true, "16.0" : true, "canary" : true },
   "safari" : { "5.0.5" : false, "5.1.0" : false, "5.1.1" : true },
-  "opera" : { "10.6" : false, "11.0" : false, "11.6" : false }
+  "opera" : { "10.6" : false, "11.0" : "pending", "11.6" : "pending" }
 }
 ```
 
@@ -45,7 +45,8 @@ Return a readable stream of png data from the browser version compatability
 object `browsers`.
 
 `browsers` should map browser names to maps of versions to booleans expressing
-compatbility.
+compatbility or `"pending"` to indicate that the browser tests have not yet
+finished.
 
 # install
 

@@ -58,11 +58,16 @@ function drawVersions (ctx, versions, x) {
         var y = 58 + i * 11;
         
         ctx.font = 'bold 12px sans-serif';
-        ctx.fillStyle = v
-            ? 'rgb(51,255,26)' // ok -> ✓ green
-            : 'rgb(255,51,26)' // fail -> ⚑ red
-        ;
-        ctx.fillText(v ? '✓' : '⚑', x, y);
+        ctx.fillStyle = {
+            'true': 'rgb(51,255,26)', // ok -> ✓ green
+            'false': 'rgb(255,51,26)', // fail -> ⚑ red
+            'pending': 'rgb(150,150,150)', // fail -> ⚑ red
+        }[String(v)] || 'rgb(150,150,150)';
+        ctx.fillText({
+            'true': '✓',
+            'false': '⚑',
+            'pending': '-'
+        }[String(v)] || '?', x, y);
         
         ctx.font = 'normal 10px sans-serif';
         ctx.fillText(key, x + 12, y);
