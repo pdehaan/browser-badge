@@ -6,5 +6,6 @@
   "opera" : { "10.6" : false, "11.0" : false, "11.6" : false },
   "iphone": { "6.0" : true },
   "ipad": { "6.0" : true },
-  "android": { "4.2" : true }
+  "android-chrome": { "20.0" : true },
+  "android-browser": { "4.2" : true }
 }
