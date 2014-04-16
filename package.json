@@ -10,7 +10,7 @@
         "example" : "example"
     },
     "dependencies" : {
-        "canvas" : "~0.13.1",
+        "canvas" : "~1.1.13",
         "optimist" : "~0.3.4",
         "syntax-error" : "~0.0.0",
         "through" : "~0.1.4"
